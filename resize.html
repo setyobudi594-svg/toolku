@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resize Foto - ToolKu</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f4f7;
+        }
+
+        .container {
+            max-width: 450px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            margin-top: 12px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 10px;
+            background: #222;
+            color: white;
+            font-size: 16px;
+        }
+
+        #preview {
+            max-width: 100%;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+
+        #hasil {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 18px;
+            color: #222;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🖼️ Resize Foto</h1>
+
+    <label>Pilih foto</label>
+    <input
+        type="file"
+        id="foto"
+        accept="image/*"
+    >
+
+    <label>Lebar foto (pixel)</label>
+    <input
+        type="number"
+        id="lebar"
+        value="1080"
+        min="1"
+    >
+
+    <button onclick="resizeFoto()">
+        🔄 Resize Foto
+    </button>
+
+    <img id="preview">
+
+    <div id="hasil"></div>
+
+    <a href="index.html" class="back">
+        ← Kembali ke ToolKu
+    </a>
+
+</div>
+
+<script>
+
+function resizeFoto() {
+
+    const fileInput = document.getElementById("foto");
+    const lebarInput = document.getElementById("lebar");
+    const preview = document.getElementById("preview");
+    const hasil = document.getElementById("hasil");
+
+    if (fileInput.files.length === 0) {
+        alert("Pilih foto terlebih dahulu.");
+        return;
+    }
+
+    const file = fileInput.files[0];
+    const lebarBaru = Number(lebarInput.value);
+
+    if (lebarBaru < 1) {
+        alert("Masukkan ukuran yang benar.");
+        return;
+    }
+
+    const img = new Image();
+
+    img.onload = function() {
+
+        const rasio = lebarBaru / img.width;
+        const tinggiBaru = Math.round(img.height * rasio);
+
+        const canvas = document.createElement("canvas");
+
+        canvas.width = lebarBaru;
+        canvas.height = tinggiBaru;
+
+        const ctx = canvas.getContext("2d");
+
+        ctx.drawImage(
+            img,
+            0,
+            0,
+            lebarBaru,
+            tinggiBaru
+        );
+
+        const hasilFoto = canvas.toDataURL(
+            "image/jpeg",
+            0.90
+        );
+
+        preview.src = hasilFoto;
+
+        hasil.innerHTML = `
+            <p>
+                Ukuran baru: ${lebarBaru} × ${tinggiBaru}px
+            </p>
+
+            <a
+                href="${hasilFoto}"
+                download="foto-resize.jpg"
+            >
+                <button>⬇️ Simpan Foto</button>
+            </a>
+        `;
+    };
+
+    img.src = URL.createObjectURL(file);
+}
+
+</script>
+
+</body>
+</html>

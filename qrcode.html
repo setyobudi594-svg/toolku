@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code - ToolKu</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f4f7;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            resize: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 12px;
+            border: none;
+            border-radius: 10px;
+            background: #222;
+            color: white;
+            font-size: 16px;
+        }
+
+        #qrcode {
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #222;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🔳 QR Code</h1>
+
+    <textarea id="text" placeholder="Masukkan teks atau link..."></textarea>
+
+    <button onclick="generateQR()">
+        Buat QR Code
+    </button>
+
+    <div id="qrcode"></div>
+
+    <a href="index.html" class="back">
+        ← Kembali ke ToolKu
+    </a>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
+
+function generateQR() {
+
+    let text = document.getElementById("text").value;
+    let qr = document.getElementById("qrcode");
+
+    qr.innerHTML = "";
+
+    if (text.trim() === "") {
+        alert("Masukkan teks atau link terlebih dahulu.");
+        return;
+    }
+
+    new QRCode(qr, {
+        text: text,
+        width: 200,
+        height: 200
+    });
+}
+
+</script>
+
+</body>
+</html>

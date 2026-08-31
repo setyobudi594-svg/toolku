@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catatan - ToolKu</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f4f7;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        textarea {
+            height: 180px;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 12px;
+            border: none;
+            border-radius: 10px;
+            background: #222;
+            color: white;
+            font-size: 16px;
+        }
+
+        .hapus {
+            background: #d33;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 18px;
+            color: #222;
+            text-decoration: none;
+        }
+
+        #status {
+            text-align: center;
+            margin-top: 12px;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>📝 Catatan</h1>
+
+    <input
+        type="text"
+        id="judul"
+        placeholder="Judul catatan"
+    >
+
+    <textarea
+        id="isi"
+        placeholder="Tulis catatan di sini..."
+    ></textarea>
+
+    <button onclick="simpanCatatan()">
+        💾 Simpan Catatan
+    </button>
+
+    <button class="hapus" onclick="hapusCatatan()">
+        🗑️ Hapus Catatan
+    </button>
+
+    <div id="status"></div>
+
+    <a href="index.html" class="back">
+        ← Kembali ke ToolKu
+    </a>
+
+</div>
+
+<script>
+
+function simpanCatatan() {
+
+    let judul = document.getElementById("judul").value;
+    let isi = document.getElementById("isi").value;
+
+    localStorage.setItem("judulCatatan", judul);
+    localStorage.setItem("isiCatatan", isi);
+
+    document.getElementById("status").innerText =
+        "✅ Catatan berhasil disimpan";
+}
+
+function bukaCatatan() {
+
+    let judul = localStorage.getItem("judulCatatan");
+    let isi = localStorage.getItem("isiCatatan");
+
+    if (judul !== null) {
+        document.getElementById("judul").value = judul;
+    }
+
+    if (isi !== null) {
+        document.getElementById("isi").value = isi;
+    }
+}
+
+function hapusCatatan() {
+
+    localStorage.removeItem("judulCatatan");
+    localStorage.removeItem("isiCatatan");
+
+    document.getElementById("judul").value = "";
+    document.getElementById("isi").value = "";
+
+    document.getElementById("status").innerText =
+        "🗑️ Catatan dihapus";
+}
+
+bukaCatatan();
+
+</script>
+
+</body>
+</html>
