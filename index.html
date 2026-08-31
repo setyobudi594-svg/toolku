@@ -7,85 +7,144 @@
 
 <style>
 *{box-sizing:border-box}
+
+:root{
+    --bg:#f5f7fb;
+    --card:#ffffff;
+    --text:#111827;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+    --header:#111827;
+}
+
+body.dark{
+    --bg:#0f172a;
+    --card:#1e293b;
+    --text:#f8fafc;
+    --muted:#cbd5e1;
+    --border:#334155;
+    --header:#020617;
+}
+
 body{
     margin:0;
     font-family:Arial,sans-serif;
-    background:#f5f7fb;
-    color:#1f2937;
+    background:var(--bg);
+    color:var(--text);
+    transition:.25s;
 }
+
 header{
-    background:#111827;
+    background:var(--header);
     color:white;
-    padding:35px 20px;
+    padding:32px 20px;
     text-align:center;
 }
+
+.top{
+    max-width:850px;
+    margin:auto;
+    position:relative;
+}
+
 header h1{
     margin:0;
     font-size:36px;
 }
+
 header p{
-    margin:10px 0 0;
-    color:#d1d5db;
+    margin:8px 0 0;
+    color:#cbd5e1;
 }
+
+#theme{
+    position:absolute;
+    right:0;
+    top:0;
+    border:0;
+    border-radius:50%;
+    width:42px;
+    height:42px;
+    font-size:20px;
+    cursor:pointer;
+}
+
 .container{
     max-width:850px;
     margin:auto;
     padding:25px 18px;
 }
+
 .search{
     width:100%;
     padding:16px 18px;
-    border:1px solid #d1d5db;
+    border:1px solid var(--border);
     border-radius:14px;
     font-size:16px;
-    margin-bottom:25px;
+    margin-bottom:22px;
     outline:none;
+    background:var(--card);
+    color:var(--text);
 }
+
 .tools{
     display:grid;
     grid-template-columns:repeat(2,1fr);
     gap:16px;
 }
+
 .tool{
     display:block;
-    background:white;
+    background:var(--card);
     padding:22px;
+    border:1px solid var(--border);
     border-radius:18px;
     text-decoration:none;
-    color:#1f2937;
-    box-shadow:0 4px 14px rgba(0,0,0,.07);
+    color:var(--text);
+    box-shadow:0 4px 14px rgba(0,0,0,.06);
     transition:.2s;
 }
+
 .tool:hover{
-    transform:translateY(-3px);
-    box-shadow:0 8px 20px rgba(0,0,0,.12);
+    transform:translateY(-4px);
+    box-shadow:0 9px 22px rgba(0,0,0,.12);
 }
+
 .icon{
-    font-size:38px;
+    font-size:40px;
     margin-bottom:10px;
 }
+
 .tool h2{
     margin:0 0 7px;
     font-size:20px;
 }
+
 .tool p{
     margin:0;
-    color:#6b7280;
+    color:var(--muted);
     font-size:14px;
     line-height:1.5;
 }
+
 footer{
     text-align:center;
     padding:30px 20px;
-    color:#6b7280;
+    color:var(--muted);
     font-size:14px;
 }
+
 @media(max-width:600px){
     .tools{
         grid-template-columns:1fr;
     }
+
     header h1{
         font-size:30px;
+    }
+
+    #theme{
+        right:10px;
     }
 }
 </style>
@@ -94,57 +153,60 @@ footer{
 <body>
 
 <header>
+<div class="top">
+    <button id="theme" onclick="ubahTema()">🌙</button>
     <h1>🛠️ ToolKu</h1>
     <p>Alat praktis untuk kebutuhan sehari-hari</p>
+</div>
 </header>
 
 <div class="container">
 
-    <input
-        type="text"
-        id="search"
-        class="search"
-        placeholder="🔍 Cari alat..."
-        oninput="cariTool()"
-    >
+<input
+    type="text"
+    id="search"
+    class="search"
+    placeholder="🔍 Cari alat..."
+    oninput="cariTool()"
+>
 
-    <div class="tools">
+<div class="tools">
 
-        <a href="kalkulator.html" class="tool">
-            <div class="icon">🧮</div>
-            <h2>Kalkulator</h2>
-            <p>Hitung angka dengan cepat dan mudah.</p>
-        </a>
+<a href="kalkulator.html" class="tool">
+    <div class="icon">🧮</div>
+    <h2>Kalkulator</h2>
+    <p>Hitung angka dengan cepat dan mudah.</p>
+</a>
 
-        <a href="qrcode.html" class="tool">
-            <div class="icon">🔳</div>
-            <h2>QR Code</h2>
-            <p>Buat QR Code dari teks atau link.</p>
-        </a>
+<a href="qrcode.html" class="tool">
+    <div class="icon">🔳</div>
+    <h2>QR Code</h2>
+    <p>Buat QR Code dari teks atau link.</p>
+</a>
 
-        <a href="catatan.html" class="tool">
-            <div class="icon">📝</div>
-            <h2>Catatan</h2>
-            <p>Simpan catatan langsung di browser.</p>
-        </a>
+<a href="catatan.html" class="tool">
+    <div class="icon">📝</div>
+    <h2>Catatan</h2>
+    <p>Simpan catatan langsung di browser.</p>
+</a>
 
-        <a href="password.html" class="tool">
-            <div class="icon">🔐</div>
-            <h2>Password</h2>
-            <p>Buat password acak yang kuat.</p>
-        </a>
+<a href="password.html" class="tool">
+    <div class="icon">🔐</div>
+    <h2>Password</h2>
+    <p>Buat password acak yang kuat.</p>
+</a>
 
-        <a href="resize.html" class="tool">
-            <div class="icon">🖼️</div>
-            <h2>Resize Foto</h2>
-            <p>Ubah ukuran foto dengan mudah.</p>
-        </a>
+<a href="resize.html" class="tool">
+    <div class="icon">🖼️</div>
+    <h2>Resize Foto</h2>
+    <p>Ubah ukuran foto dengan mudah.</p>
+</a>
 
-    </div>
+</div>
 </div>
 
 <footer>
-    © 2026 ToolKu
+© 2026 ToolKu
 </footer>
 
 <script>
@@ -154,10 +216,28 @@ function cariTool(){
 
     tools.forEach(function(tool){
         let text=tool.innerText.toLowerCase();
-        tool.style.display=text.includes(input) ? "block" : "none";
+        tool.style.display=text.includes(input)?"block":"none";
     });
+}
+
+function ubahTema(){
+    document.body.classList.toggle("dark");
+
+    let gelap = document.body.classList.contains("dark");
+
+    localStorage.setItem("tema", gelap ? "dark" : "light");
+
+    let tombol=document.getElementById("theme");
+
+    tombol.textContent = gelap ? "☀️" : "🌙";
+}
+
+if(localStorage.getItem("tema") === "dark"){
+    document.body.classList.add("dark");
+    document.getElementById("theme").textContent = "☀️";
 }
 </script>
 
 </body>
 </html>
+
