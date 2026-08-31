@@ -1,119 +1,101 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ToolKu - Alat Praktis Online</title>
 
-    <title>ToolKu - Alat Praktis Online</title>
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f5f7;
-            color: #222;
-        }
-
-        header {
-            background: #111;
-            color: white;
-            padding: 30px 20px;
-            text-align: center;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 32px;
-        }
-
-        header p {
-            margin: 8px 0 0;
-            color: #ccc;
-        }
-
-        .container {
-            max-width: 700px;
-            margin: auto;
-            padding: 20px;
-        }
-
-        .search {
-            width: 100%;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 12px;
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-
-        .tools {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-
-        .tool {
-            display: block;
-            text-decoration: none;
-            background: white;
-            color: #222;
-            padding: 20px;
-            border-radius: 18px;
-            box-shadow: 0 4px 12px rgba(0,0,0,.07);
-            transition: .2s;
-        }
-
-        .tool:hover {
-            transform: translateY(-3px);
-        }
-
-        .icon {
-            font-size: 38px;
-            margin-bottom: 12px;
-        }
-
-        .tool h2 {
-            margin: 0 0 7px;
-            font-size: 19px;
-        }
-
-        .tool p {
-            margin: 0;
-            color: #666;
-            font-size: 14px;
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px 20px;
-            color: #777;
-            font-size: 13px;
-        }
-
-        @media (max-width: 500px) {
-
-            .tools {
-                grid-template-columns: 1fr;
-            }
-
-        }
-
-    </style>
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f5f7fb;
+    color:#1f2937;
+}
+header{
+    background:#111827;
+    color:white;
+    padding:35px 20px;
+    text-align:center;
+}
+header h1{
+    margin:0;
+    font-size:36px;
+}
+header p{
+    margin:10px 0 0;
+    color:#d1d5db;
+}
+.container{
+    max-width:850px;
+    margin:auto;
+    padding:25px 18px;
+}
+.search{
+    width:100%;
+    padding:16px 18px;
+    border:1px solid #d1d5db;
+    border-radius:14px;
+    font-size:16px;
+    margin-bottom:25px;
+    outline:none;
+}
+.tools{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:16px;
+}
+.tool{
+    display:block;
+    background:white;
+    padding:22px;
+    border-radius:18px;
+    text-decoration:none;
+    color:#1f2937;
+    box-shadow:0 4px 14px rgba(0,0,0,.07);
+    transition:.2s;
+}
+.tool:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 20px rgba(0,0,0,.12);
+}
+.icon{
+    font-size:38px;
+    margin-bottom:10px;
+}
+.tool h2{
+    margin:0 0 7px;
+    font-size:20px;
+}
+.tool p{
+    margin:0;
+    color:#6b7280;
+    font-size:14px;
+    line-height:1.5;
+}
+footer{
+    text-align:center;
+    padding:30px 20px;
+    color:#6b7280;
+    font-size:14px;
+}
+@media(max-width:600px){
+    .tools{
+        grid-template-columns:1fr;
+    }
+    header h1{
+        font-size:30px;
+    }
+}
+</style>
 </head>
 
 <body>
 
 <header>
-
     <h1>🛠️ ToolKu</h1>
-
     <p>Alat praktis untuk kebutuhan sehari-hari</p>
-
 </header>
 
 <div class="container">
@@ -131,7 +113,7 @@
         <a href="kalkulator.html" class="tool">
             <div class="icon">🧮</div>
             <h2>Kalkulator</h2>
-            <p>Hitung angka dengan cepat.</p>
+            <p>Hitung angka dengan cepat dan mudah.</p>
         </a>
 
         <a href="qrcode.html" class="tool">
@@ -159,42 +141,22 @@
         </a>
 
     </div>
-
 </div>
 
 <footer>
-
     © 2026 ToolKu
-
 </footer>
 
 <script>
+function cariTool(){
+    let input=document.getElementById("search").value.toLowerCase();
+    let tools=document.querySelectorAll(".tool");
 
-function cariTool() {
-
-    let input =
-        document.getElementById("search")
-        .value
-        .toLowerCase();
-
-    let tools =
-        document.querySelectorAll(".tool");
-
-    tools.forEach(function(tool) {
-
-        let nama =
-            tool.innerText.toLowerCase();
-
-        if (nama.includes(input)) {
-            tool.style.display = "block";
-        } else {
-            tool.style.display = "none";
-        }
-
+    tools.forEach(function(tool){
+        let text=tool.innerText.toLowerCase();
+        tool.style.display=text.includes(input) ? "block" : "none";
     });
-
 }
-
 </script>
 
 </body>
