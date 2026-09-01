@@ -423,6 +423,12 @@ footer{
 }
 </style>
 <link rel="stylesheet" href="splash.css">
+<link rel="stylesheet" href="bottom-nav.css">
+<style>
+html{
+    scroll-behavior:smooth;
+}
+</style>
 </head>
 
 <body>
@@ -977,6 +983,24 @@ tampilkanToolTerakhir();
 window.addEventListener("pageshow", terapkanTema);
 </script>
 
+<nav class="bottom-nav">
+    <a href="index.html" class="active">
+        <span>🏠</span>
+        Beranda
+    </a>
+    <a href="javascript:tampilkanFavorit()">
+        <span>⭐</span>
+        Favorit
+    </a>
+    <a href="#riwayat">
+        <span>🕘</span>
+        Riwayat
+    </a>
+    <a href="#dashboard">
+        <span>📊</span>
+        Statistik
+    </a>
+</nav>
 </body>
 </html>
 
@@ -991,3 +1015,4 @@ window.addEventListener("load", function(){
     }, 700);
 });
 </script>
+
