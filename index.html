@@ -134,6 +134,30 @@ header p{
     color:var(--bg);
 }
 
+.kategori{
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    margin-bottom:22px;
+    padding-bottom:4px;
+}
+
+.kategori-btn{
+    flex:0 0 auto;
+    padding:10px 15px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:var(--card);
+    color:var(--text);
+    font-size:14px;
+    cursor:pointer;
+}
+
+.kategori-btn.aktif{
+    background:var(--text);
+    color:var(--bg);
+}
+
 .terakhir{
     display:none;
     margin-bottom:18px;
@@ -276,39 +300,46 @@ footer{
     ⭐ Favorit Saya
 </button>
 
+<div class="kategori">
+    <button class="kategori-btn aktif" onclick="filterKategori('semua', this)">Semua</button>
+    <button class="kategori-btn" onclick="filterKategori('utilitas', this)">🛠️ Utilitas</button>
+    <button class="kategori-btn" onclick="filterKategori('foto', this)">🖼️ Foto</button>
+    <button class="kategori-btn" onclick="filterKategori('keamanan', this)">🔐 Keamanan</button>
+</div>
+
 <a id="terakhir" class="terakhir" href="#"></a>
 
 <div class="tools">
 
-<a href="kalkulator.html" class="tool" onclick="catatToolTerakhir('Kalkulator')">
+<a href="kalkulator.html" class="tool" data-kategori="utilitas" onclick="catatToolTerakhir('Kalkulator')">
     <button class="favorit" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorit('kalkulator.html', this)">☆</button>
     <div class="icon">🧮</div>
     <h2>Kalkulator</h2>
     <p>Hitung angka dengan cepat dan mudah.</p>
 </a>
 
-<a href="qrcode.html" class="tool" onclick="catatToolTerakhir('QR Code')">
+<a href="qrcode.html" class="tool" data-kategori="utilitas" onclick="catatToolTerakhir('QR Code')">
     <button class="favorit" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorit('qrcode.html', this)">☆</button>
     <div class="icon">🔳</div>
     <h2>QR Code</h2>
     <p>Buat QR Code dari teks atau link.</p>
 </a>
 
-<a href="catatan.html" class="tool" onclick="catatToolTerakhir('Catatan')">
+<a href="catatan.html" class="tool" data-kategori="utilitas" onclick="catatToolTerakhir('Catatan')">
     <button class="favorit" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorit('catatan.html', this)">☆</button>
     <div class="icon">📝</div>
     <h2>Catatan</h2>
     <p>Simpan catatan langsung di browser.</p>
 </a>
 
-<a href="password.html" class="tool" onclick="catatToolTerakhir('Password')">
+<a href="password.html" class="tool" data-kategori="keamanan" onclick="catatToolTerakhir('Password')">
     <button class="favorit" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorit('password.html', this)">☆</button>
     <div class="icon">🔐</div>
     <h2>Password</h2>
     <p>Buat password acak yang kuat.</p>
 </a>
 
-<a href="resize.html" class="tool" onclick="catatToolTerakhir('Resize Foto')">
+<a href="resize.html" class="tool" data-kategori="foto" onclick="catatToolTerakhir('Resize Foto')">
     <button class="favorit" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorit('resize.html', this)">☆</button>
     <div class="icon">🖼️</div>
     <h2>Resize Foto</h2>
@@ -348,13 +379,63 @@ function tampilkanToolTerakhir(){
     kotak.style.display = "block";
 }
 
+function filterKategori(kategori, tombol){
+    modeFavorit = false;
+
+    let filterFavorit = document.getElementById("filterFavorit");
+    if(filterFavorit){
+        filterFavorit.classList.remove("aktif");
+        filterFavorit.textContent = "⭐ Favorit Saya";
+    }
+
+    document.querySelectorAll(".kategori-btn").forEach(function(btn){
+        btn.classList.remove("aktif");
+    });
+
+    tombol.classList.add("aktif");
+
+    document.querySelectorAll(".tool").forEach(function(tool){
+        if(kategori === "semua"){
+            tool.style.display = "block";
+        } else {
+            tool.style.display =
+                tool.dataset.kategori === kategori ? "block" : "none";
+        }
+    });
+}
+
 function cariTool(){
-    let input=document.getElementById("search").value.toLowerCase();
-    let tools=document.querySelectorAll(".tool");
+    let input = document.getElementById("search").value.toLowerCase();
+    let tools = document.querySelectorAll(".tool");
+
+    let kategoriAktif = document.querySelector(".kategori-btn.aktif");
+    let kategori = kategoriAktif
+        ? kategoriAktif.getAttribute("onclick").match(/'([^']+)'/)[1]
+        : "semua";
+
+    let favorit = JSON.parse(localStorage.getItem("favoritTool") || "[]");
 
     tools.forEach(function(tool){
-        let text=tool.innerText.toLowerCase();
-        tool.style.display=text.includes(input)?"block":"none";
+        let text = tool.innerText.toLowerCase();
+        let cocokSearch = text.includes(input);
+        let cocokKategori =
+            kategori === "semua" ||
+            tool.dataset.kategori === kategori;
+
+        let tombolFavorit = tool.querySelector(".favorit");
+        let onclick = tombolFavorit
+            ? tombolFavorit.getAttribute("onclick")
+            : "";
+        let cocok = onclick.match(/toggleFavorit\('([^']+)'/);
+
+        let cocokFavorit =
+            !modeFavorit ||
+            (cocok && favorit.includes(cocok[1]));
+
+        tool.style.display =
+            cocokSearch && cocokKategori && cocokFavorit
+            ? "block"
+            : "none";
     });
 }
 
