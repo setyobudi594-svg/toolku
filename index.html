@@ -232,10 +232,21 @@ function ubahTema(){
     tombol.textContent = gelap ? "☀️" : "🌙";
 }
 
-if(localStorage.getItem("tema") === "dark"){
-    document.body.classList.add("dark");
-    document.getElementById("theme").textContent = "☀️";
+function terapkanTema(){
+    let gelap = localStorage.getItem("tema") === "dark";
+
+    document.body.classList.toggle("dark", gelap);
+
+    let tombol = document.getElementById("theme");
+
+    if(tombol){
+        tombol.textContent = gelap ? "☀️" : "🌙";
+    }
 }
+
+terapkanTema();
+
+window.addEventListener("pageshow", terapkanTema);
 </script>
 
 </body>

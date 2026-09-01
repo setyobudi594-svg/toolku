@@ -10,17 +10,37 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --bg: #f2f4f7;
+            --card: white;
+            --text: #222;
+            --input: white;
+            --button: #eee;
+            --operator: #ddd;
+        }
+
+        body.dark {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f8fafc;
+            --input: #0f172a;
+            --button: #334155;
+            --operator: #475569;
+        }
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: #f2f4f7;
+            background: var(--bg);
+            color: var(--text);
+            transition: .25s;
         }
 
         .calculator {
             max-width: 400px;
             margin: 30px auto;
             padding: 20px;
-            background: white;
+            background: var(--card);
             border-radius: 20px;
         }
 
@@ -35,8 +55,10 @@
             text-align: right;
             padding: 10px;
             margin-bottom: 15px;
-            border: 1px solid #ddd;
+            border: 1px solid #475569;
             border-radius: 10px;
+            background: var(--input);
+            color: var(--text);
         }
 
         .buttons {
@@ -50,7 +72,7 @@
             font-size: 22px;
             border: none;
             border-radius: 12px;
-            background: #eee;
+            background: var(--button);
         }
 
         button:active {
@@ -58,7 +80,7 @@
         }
 
         .operator {
-            background: #ddd;
+            background: var(--operator);
         }
 
         .equal {
@@ -174,6 +196,12 @@ function calculate() {
 
 }
 
+</script>
+
+<script>
+if (localStorage.getItem("tema") === "dark") {
+    document.body.classList.add("dark");
+}
 </script>
 
 </body>
