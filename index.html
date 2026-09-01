@@ -422,9 +422,15 @@ footer{
     }
 }
 </style>
+<link rel="stylesheet" href="splash.css">
 </head>
 
 <body>
+<div id="splashScreen">
+    <div class="splash-logo">TK</div>
+    <div class="splash-title">ToolKu</div>
+    <div class="splash-text">Tools sederhana, gratis, dan praktis</div>
+</div>
 
 <header>
 <div class="top">
@@ -973,3 +979,14 @@ window.addEventListener("pageshow", terapkanTema);
 </body>
 </html>
 
+
+<script>
+window.addEventListener("load", function(){
+    setTimeout(function(){
+        const splash = document.getElementById("splashScreen");
+        if(splash){
+            splash.classList.add("hide");
+        }
+    }, 700);
+});
+</script>
