@@ -224,6 +224,60 @@ header p{
     color:var(--bg);
 }
 
+.riwayat{
+    display:none;
+    margin-bottom:22px;
+    padding:18px;
+    border:1px solid var(--border);
+    border-radius:16px;
+    background:var(--card);
+    color:var(--text);
+}
+
+.riwayat-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+}
+
+.riwayat-header h2{
+    margin:0;
+    font-size:18px;
+}
+
+.riwayat-header button{
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:7px 10px;
+    background:var(--bg);
+    color:var(--text);
+    cursor:pointer;
+}
+
+.riwayat-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.riwayat-item:last-child{
+    border-bottom:none;
+}
+
+.riwayat-item a{
+    color:var(--text);
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.riwayat-waktu{
+    color:var(--muted);
+    font-size:12px;
+}
+
 .populer{
     margin-bottom:22px;
     padding:18px;
@@ -425,6 +479,14 @@ footer{
     </button>
 </div>
 
+<div id="riwayat" class="riwayat">
+    <div class="riwayat-header">
+        <h2>🕘 Riwayat Penggunaan</h2>
+        <button onclick="hapusRiwayat()">Hapus</button>
+    </div>
+    <div id="daftarRiwayat"></div>
+</div>
+
 <div id="populer" class="populer">
     <h2>🔥 Paling Sering Digunakan</h2>
     <div id="daftarPopuler"></div>
@@ -483,6 +545,25 @@ footer{
 function catatToolTerakhir(nama){
     localStorage.setItem("toolTerakhir", nama);
 
+    let riwayat = JSON.parse(
+        localStorage.getItem("riwayatTool") || "[]"
+    );
+
+    riwayat.unshift({
+        nama: nama,
+        waktu: new Date().toLocaleTimeString("id-ID", {
+            hour: "2-digit",
+            minute: "2-digit"
+        })
+    });
+
+    riwayat = riwayat.slice(0, 10);
+
+    localStorage.setItem(
+        "riwayatTool",
+        JSON.stringify(riwayat)
+    );
+
     let statistik = JSON.parse(
         localStorage.getItem("statistikTool") || "{}"
     );
@@ -511,6 +592,69 @@ function resetStatistik(){
     tampilkanPopuler();
 
     alert("Statistik berhasil direset.");
+}
+
+function tampilkanRiwayat(){
+    let riwayat = JSON.parse(
+        localStorage.getItem("riwayatTool") || "[]"
+    );
+
+    let kotak = document.getElementById("riwayat");
+    let daftar = document.getElementById("daftarRiwayat");
+
+    if(!kotak || !daftar){
+        return;
+    }
+
+    if(riwayat.length === 0){
+        kotak.style.display = "none";
+        return;
+    }
+
+    let tujuan = {
+        "Kalkulator": "kalkulator.html",
+        "QR Code": "qrcode.html",
+        "Catatan": "catatan.html",
+        "Password": "password.html",
+        "Resize Foto": "resize.html"
+    };
+
+    let ikon = {
+        "Kalkulator": "🧮",
+        "QR Code": "🔳",
+        "Catatan": "📝",
+        "Password": "🔐",
+        "Resize Foto": "🖼️"
+    };
+
+    kotak.style.display = "block";
+    daftar.innerHTML = "";
+
+    riwayat.forEach(function(item, index){
+        let baris = document.createElement("div");
+        baris.className = "riwayat-item";
+
+        baris.innerHTML =
+            "<a href='" + (tujuan[item.nama] || "#") + "'>" +
+            (index + 1) + ". " +
+            (ikon[item.nama] || "🛠️") + " " +
+            item.nama +
+            "</a>" +
+            "<span class='riwayat-waktu'>" +
+            item.waktu +
+            "</span>";
+
+        daftar.appendChild(baris);
+    });
+}
+
+function hapusRiwayat(){
+    if(!confirm("Hapus semua riwayat penggunaan?")){
+        return;
+    }
+
+    localStorage.removeItem("riwayatTool");
+    tampilkanRiwayat();
 }
 
 function tampilkanDashboard(){
@@ -805,6 +949,7 @@ function terapkanTema(){
 }
 
 terapkanTema();
+tampilkanRiwayat();
 tampilkanDashboard();
 tampilkanStatistik();
 tampilkanPopuler();
