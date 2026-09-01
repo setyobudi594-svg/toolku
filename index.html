@@ -235,6 +235,12 @@ header p{
     line-height:1.5;
 }
 
+.statistik{
+    margin-top:12px;
+    font-size:13px;
+    color:var(--muted);
+}
+
 footer{
     text-align:center;
     padding:30px 20px;
@@ -316,6 +322,7 @@ footer{
     <div class="icon">🧮</div>
     <h2>Kalkulator</h2>
     <p>Hitung angka dengan cepat dan mudah.</p>
+    <div class="statistik" data-statistik="Kalkulator"></div>
 </a>
 
 <a href="qrcode.html" class="tool" data-kategori="utilitas" onclick="catatToolTerakhir('QR Code')">
@@ -323,6 +330,7 @@ footer{
     <div class="icon">🔳</div>
     <h2>QR Code</h2>
     <p>Buat QR Code dari teks atau link.</p>
+    <div class="statistik" data-statistik="QR Code"></div>
 </a>
 
 <a href="catatan.html" class="tool" data-kategori="utilitas" onclick="catatToolTerakhir('Catatan')">
@@ -330,6 +338,7 @@ footer{
     <div class="icon">📝</div>
     <h2>Catatan</h2>
     <p>Simpan catatan langsung di browser.</p>
+    <div class="statistik" data-statistik="Catatan"></div>
 </a>
 
 <a href="password.html" class="tool" data-kategori="keamanan" onclick="catatToolTerakhir('Password')">
@@ -337,6 +346,7 @@ footer{
     <div class="icon">🔐</div>
     <h2>Password</h2>
     <p>Buat password acak yang kuat.</p>
+    <div class="statistik" data-statistik="Password"></div>
 </a>
 
 <a href="resize.html" class="tool" data-kategori="foto" onclick="catatToolTerakhir('Resize Foto')">
@@ -344,6 +354,7 @@ footer{
     <div class="icon">🖼️</div>
     <h2>Resize Foto</h2>
     <p>Ubah ukuran foto dengan mudah.</p>
+    <div class="statistik" data-statistik="Resize Foto"></div>
 </a>
 
 </div>
@@ -356,6 +367,30 @@ footer{
 <script>
 function catatToolTerakhir(nama){
     localStorage.setItem("toolTerakhir", nama);
+
+    let statistik = JSON.parse(
+        localStorage.getItem("statistikTool") || "{}"
+    );
+
+    statistik[nama] = (statistik[nama] || 0) + 1;
+
+    localStorage.setItem(
+        "statistikTool",
+        JSON.stringify(statistik)
+    );
+}
+
+function tampilkanStatistik(){
+    let statistik = JSON.parse(
+        localStorage.getItem("statistikTool") || "{}"
+    );
+
+    document.querySelectorAll(".statistik").forEach(function(elemen){
+        let nama = elemen.dataset.statistik;
+        let jumlah = statistik[nama] || 0;
+
+        elemen.textContent = "📊 Digunakan " + jumlah + " kali";
+    });
 }
 
 function tampilkanToolTerakhir(){
@@ -547,6 +582,7 @@ function terapkanTema(){
 }
 
 terapkanTema();
+tampilkanStatistik();
 tampilkanToolTerakhir();
 
 window.addEventListener("pageshow", terapkanTema);
