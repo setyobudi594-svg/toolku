@@ -134,6 +134,17 @@ header p{
     color:var(--bg);
 }
 
+.terakhir{
+    display:none;
+    margin-bottom:18px;
+    padding:16px;
+    border:1px solid var(--border);
+    border-radius:14px;
+    background:var(--card);
+    color:var(--text);
+    font-size:15px;
+}
+
 .tools{
     display:grid;
     grid-template-columns:repeat(2,1fr);
@@ -265,37 +276,39 @@ footer{
     ⭐ Favorit Saya
 </button>
 
+<a id="terakhir" class="terakhir" href="#"></a>
+
 <div class="tools">
 
-<a href="kalkulator.html" class="tool">
+<a href="kalkulator.html" class="tool" onclick="catatToolTerakhir('Kalkulator')">
     <button class="favorit" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorit('kalkulator.html', this)">☆</button>
     <div class="icon">🧮</div>
     <h2>Kalkulator</h2>
     <p>Hitung angka dengan cepat dan mudah.</p>
 </a>
 
-<a href="qrcode.html" class="tool">
+<a href="qrcode.html" class="tool" onclick="catatToolTerakhir('QR Code')">
     <button class="favorit" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorit('qrcode.html', this)">☆</button>
     <div class="icon">🔳</div>
     <h2>QR Code</h2>
     <p>Buat QR Code dari teks atau link.</p>
 </a>
 
-<a href="catatan.html" class="tool">
+<a href="catatan.html" class="tool" onclick="catatToolTerakhir('Catatan')">
     <button class="favorit" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorit('catatan.html', this)">☆</button>
     <div class="icon">📝</div>
     <h2>Catatan</h2>
     <p>Simpan catatan langsung di browser.</p>
 </a>
 
-<a href="password.html" class="tool">
+<a href="password.html" class="tool" onclick="catatToolTerakhir('Password')">
     <button class="favorit" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorit('password.html', this)">☆</button>
     <div class="icon">🔐</div>
     <h2>Password</h2>
     <p>Buat password acak yang kuat.</p>
 </a>
 
-<a href="resize.html" class="tool">
+<a href="resize.html" class="tool" onclick="catatToolTerakhir('Resize Foto')">
     <button class="favorit" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorit('resize.html', this)">☆</button>
     <div class="icon">🖼️</div>
     <h2>Resize Foto</h2>
@@ -310,6 +323,31 @@ footer{
 </footer>
 
 <script>
+function catatToolTerakhir(nama){
+    localStorage.setItem("toolTerakhir", nama);
+}
+
+function tampilkanToolTerakhir(){
+    let nama = localStorage.getItem("toolTerakhir");
+    let kotak = document.getElementById("terakhir");
+
+    if(!nama || !kotak){
+        return;
+    }
+
+    let tujuan = {
+        "Kalkulator": "kalkulator.html",
+        "QR Code": "qrcode.html",
+        "Catatan": "catatan.html",
+        "Password": "password.html",
+        "Resize Foto": "resize.html"
+    };
+
+    kotak.innerHTML = "🕘 Terakhir digunakan: <strong>" + nama + "</strong>";
+    kotak.href = tujuan[nama] || "#";
+    kotak.style.display = "block";
+}
+
 function cariTool(){
     let input=document.getElementById("search").value.toLowerCase();
     let tools=document.querySelectorAll(".tool");
@@ -428,6 +466,7 @@ function terapkanTema(){
 }
 
 terapkanTema();
+tampilkanToolTerakhir();
 
 window.addEventListener("pageshow", terapkanTema);
 </script>
