@@ -81,10 +81,27 @@ header p{
     border:1px solid var(--border);
     border-radius:14px;
     font-size:16px;
-    margin-bottom:22px;
+    margin-bottom:12px;
     outline:none;
     background:var(--card);
     color:var(--text);
+}
+
+.filter-favorit{
+    width:100%;
+    padding:13px;
+    margin-bottom:22px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:var(--card);
+    color:var(--text);
+    font-size:15px;
+    cursor:pointer;
+}
+
+.filter-favorit.aktif{
+    background:var(--text);
+    color:var(--bg);
 }
 
 .tools{
@@ -103,6 +120,32 @@ header p{
     color:var(--text);
     box-shadow:0 4px 14px rgba(0,0,0,.06);
     transition:.2s;
+    position:relative;
+}
+
+.favorit{
+    position:absolute;
+    top:12px;
+    right:12px;
+    width:42px;
+    height:42px;
+    padding:0;
+    margin:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid var(--border);
+    border-radius:50%;
+    background:var(--card);
+    color:var(--text);
+    font-size:24px;
+    line-height:1;
+    cursor:pointer;
+    z-index:10;
+}
+
+.favorit.aktif{
+    color:#f59e0b;
 }
 
 .tool:hover{
@@ -170,33 +213,42 @@ footer{
     oninput="cariTool()"
 >
 
+<button id="filterFavorit" class="filter-favorit" onclick="tampilkanFavorit()">
+    ⭐ Favorit Saya
+</button>
+
 <div class="tools">
 
 <a href="kalkulator.html" class="tool">
+    <button class="favorit" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorit('kalkulator.html', this)">☆</button>
     <div class="icon">🧮</div>
     <h2>Kalkulator</h2>
     <p>Hitung angka dengan cepat dan mudah.</p>
 </a>
 
 <a href="qrcode.html" class="tool">
+    <button class="favorit" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorit('qrcode.html', this)">☆</button>
     <div class="icon">🔳</div>
     <h2>QR Code</h2>
     <p>Buat QR Code dari teks atau link.</p>
 </a>
 
 <a href="catatan.html" class="tool">
+    <button class="favorit" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorit('catatan.html', this)">☆</button>
     <div class="icon">📝</div>
     <h2>Catatan</h2>
     <p>Simpan catatan langsung di browser.</p>
 </a>
 
 <a href="password.html" class="tool">
+    <button class="favorit" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorit('password.html', this)">☆</button>
     <div class="icon">🔐</div>
     <h2>Password</h2>
     <p>Buat password acak yang kuat.</p>
 </a>
 
 <a href="resize.html" class="tool">
+    <button class="favorit" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorit('resize.html', this)">☆</button>
     <div class="icon">🖼️</div>
     <h2>Resize Foto</h2>
     <p>Ubah ukuran foto dengan mudah.</p>
@@ -218,6 +270,82 @@ function cariTool(){
         let text=tool.innerText.toLowerCase();
         tool.style.display=text.includes(input)?"block":"none";
     });
+}
+
+function toggleFavorit(nama, tombol){
+    let favorit = JSON.parse(localStorage.getItem("favoritTool") || "[]");
+
+    if(favorit.includes(nama)){
+        favorit = favorit.filter(function(item){
+            return item !== nama;
+        });
+        tombol.textContent = "☆";
+        tombol.classList.remove("aktif");
+    } else {
+        favorit.push(nama);
+        tombol.textContent = "★";
+        tombol.classList.add("aktif");
+    }
+
+    localStorage.setItem("favoritTool", JSON.stringify(favorit));
+
+    if(typeof modeFavorit !== "undefined" && modeFavorit){
+        tampilkanFavoritAktif();
+    }
+}
+
+function muatFavorit(){
+    let favorit = JSON.parse(localStorage.getItem("favoritTool") || "[]");
+
+    document.querySelectorAll(".favorit").forEach(function(tombol){
+        let onclick = tombol.getAttribute("onclick");
+        let cocok = onclick.match(/toggleFavorit\('([^']+)'/);
+
+        if(cocok && favorit.includes(cocok[1])){
+            tombol.textContent = "★";
+            tombol.classList.add("aktif");
+        }
+    });
+}
+
+muatFavorit();
+
+let modeFavorit = false;
+
+function tampilkanFavoritAktif(){
+    let favorit = JSON.parse(localStorage.getItem("favoritTool") || "[]");
+
+    document.querySelectorAll(".tool").forEach(function(tool){
+        let tombolFavorit = tool.querySelector(".favorit");
+        let onclick = tombolFavorit ? tombolFavorit.getAttribute("onclick") : "";
+        let cocok = onclick.match(/toggleFavorit\('([^']+)'/);
+
+        tool.style.display =
+            cocok && favorit.includes(cocok[1]) ? "block" : "none";
+    });
+}
+
+function tampilkanFavorit(){
+    modeFavorit = !modeFavorit;
+
+    let tombol = document.getElementById("filterFavorit");
+    let favorit = JSON.parse(localStorage.getItem("favoritTool") || "[]");
+
+    document.querySelectorAll(".tool").forEach(function(tool){
+        let tombolFavorit = tool.querySelector(".favorit");
+        let onclick = tombolFavorit ? tombolFavorit.getAttribute("onclick") : "";
+        let cocok = onclick.match(/toggleFavorit\('([^']+)'/);
+
+        if(modeFavorit){
+            tool.style.display =
+                cocok && favorit.includes(cocok[1]) ? "block" : "none";
+        } else {
+            tool.style.display = "block";
+        }
+    });
+
+    tombol.classList.toggle("aktif", modeFavorit);
+    tombol.textContent = modeFavorit ? "⭐ Semua Tool" : "⭐ Favorit Saya";
 }
 
 function ubahTema(){
