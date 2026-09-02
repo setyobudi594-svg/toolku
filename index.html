@@ -36,10 +36,52 @@ body{
 }
 
 header{
-    background:var(--header);
+    background:linear-gradient(135deg,var(--header),#1f2937);
     color:white;
-    padding:32px 20px;
+    padding:24px 18px 28px;
     text-align:center;
+    border-radius:0 0 28px 28px;
+    box-shadow:0 8px 25px rgba(0,0,0,.15);
+}
+
+header .top{
+    max-width:850px;
+    margin:auto;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+}
+
+header .brand{
+    text-align:left;
+}
+
+header h1{
+    margin:0;
+    font-size:32px;
+    letter-spacing:-.5px;
+}
+
+header p{
+    margin:7px 0 0;
+    font-size:14px;
+    color:#cbd5e1;
+}
+
+header .logo{
+    width:52px;
+    height:52px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:white;
+    color:#111827;
+    border-radius:16px;
+    font-size:20px;
+    font-weight:800;
+    box-shadow:0 6px 18px rgba(0,0,0,.25);
 }
 
 .top{
@@ -442,8 +484,13 @@ html{
 <header>
 <div class="top">
     <button id="theme" onclick="ubahTema()">🌙</button>
-    <h1>🛠️ ToolKu</h1>
-    <p>Alat praktis untuk kebutuhan sehari-hari</p>
+
+    <div class="logo">TK</div>
+
+    <div class="brand">
+        <h1>ToolKu</h1>
+        <p>Alat praktis untuk kebutuhan sehari-hari</p>
+    </div>
 </div>
 </header>
 
