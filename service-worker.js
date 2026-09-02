@@ -1,4 +1,4 @@
-const CACHE_NAME = "toolku-v3";
+const CACHE_NAME = "toolku-v4";
 
 const FILES_TO_CACHE = [
     "./",
