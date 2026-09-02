@@ -567,6 +567,14 @@ if ("serviceWorker" in navigator) {
             });
     });
 }
+function aktifkanNav(tombol){
+    document.querySelectorAll(".bottom-nav a").forEach(function(item){
+        item.classList.remove("active");
+    });
+
+    tombol.classList.add("active");
+}
+
 function catatToolTerakhir(nama){
     localStorage.setItem("toolTerakhir", nama);
 
@@ -984,19 +992,19 @@ window.addEventListener("pageshow", terapkanTema);
 </script>
 
 <nav class="bottom-nav">
-    <a href="javascript:window.scrollTo({top:0, behavior:'smooth'})" class="active">
+    <a href="javascript:window.scrollTo({top:0, behavior:'smooth'})" class="active" onclick="aktifkanNav(this)">
         <span>🏠</span>
         Beranda
     </a>
-    <a href="javascript:tampilkanFavorit()">
+    <a href="javascript:tampilkanFavorit()" onclick="aktifkanNav(this)">
         <span>⭐</span>
         Favorit
     </a>
-    <a href="#riwayat">
+    <a href="#riwayat" onclick="aktifkanNav(this)">
         <span>🕘</span>
         Riwayat
     </a>
-    <a href="#dashboard">
+    <a href="#dashboard" onclick="aktifkanNav(this)">
         <span>📊</span>
         Statistik
     </a>
