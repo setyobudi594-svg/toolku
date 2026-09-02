@@ -1,10 +1,12 @@
-const CACHE_NAME = "toolku-v2";
+const CACHE_NAME = "toolku-v3";
 
 const FILES_TO_CACHE = [
     "./",
     "./index.html",
     "./manifest.json",
     "./splash.css",
+    "./bottom-nav.css",
+    "./service-worker.js",
     "./kalkulator.html",
     "./qrcode.html",
     "./catatan.html",
